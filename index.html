@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Front Office Employee for Home Service Businesses | AnkurAI</title>
+<meta name="description" content="Never miss another job. Your AI Front Office Employee answers every call, texts back missed ones in seconds, and books appointments straight into your calendar — 24/7, for HVAC, plumbing, electrical, roofing, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1720;
+    --ink-soft:#1B2531;
+    --paper:#F7F6F3;
+    --paper-dim:#EDEBE5;
+    --amber:#F2762E;
+    --amber-deep:#D65F1C;
+    --green:#2E9E6C;
+    --slate:#5C6672;
+    --slate-light:#8A93A0;
+    --line:#26313F;
+    --line-light:#DAD7CF;
+    --white:#FFFFFF;
+    --radius:14px;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3,h4{font-family:var(--display); font-weight:600; letter-spacing:-0.02em; line-height:1.05;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--amber-deep); font-weight:600; display:flex; align-items:center; gap:8px; margin-bottom:16px;
+  }
+  .eyebrow::before{content:''; width:18px; height:2px; background:var(--amber); display:inline-block;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:14px 26px; border-radius:999px;
+    font-weight:600; font-size:15px; cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease;
+    font-family:var(--body);
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--amber); color:var(--ink); box-shadow:0 6px 0 var(--amber-deep);}
+  .btn-primary:hover{box-shadow:0 8px 0 var(--amber-deep);}
+  .btn-primary:active{transform:translateY(3px); box-shadow:0 2px 0 var(--amber-deep);}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--line-light);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-dark{background:var(--ink); color:var(--paper); box-shadow:0 6px 0 #000;}
+  .btn-dark:active{transform:translateY(3px); box-shadow:0 2px 0 #000;}
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50; background:rgba(247,246,243,0.88); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-light);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
+  .logo{font-family:var(--display); font-weight:700; font-size:19px; display:flex; align-items:center; gap:8px;}
+  .logo .dot{width:9px; height:9px; background:var(--amber); border-radius:2px; transform:rotate(45deg);}
+  .nav-links{display:flex; gap:32px; font-size:14.5px; font-weight:500;}
+  .nav-links a{color:var(--slate); transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{display:flex; gap:12px; align-items:center;}
+  .nav-cta .btn{padding:11px 20px; font-size:14px;}
+  .mobile-toggle{display:none;}
+
+  /* HERO */
+  .hero{padding:76px 0 60px; position:relative; overflow:hidden;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;}
+  .hero h1{font-size:clamp(34px,4.4vw,58px); margin-bottom:22px;}
+  .hero h1 .accent{color:var(--amber-deep); font-style:italic; font-family:var(--display);}
+  .hero-sub{font-size:18px; color:var(--slate); max-width:520px; margin-bottom:32px;}
+  .hero-cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;}
+  .hero-stats{display:flex; gap:32px; flex-wrap:wrap;}
+  .hero-stats div{border-left:2px solid var(--line-light); padding-left:14px;}
+  .hero-stats .num{font-family:var(--mono); font-weight:600; font-size:22px; color:var(--ink);}
+  .hero-stats .lbl{font-size:12.5px; color:var(--slate-light);}
+
+  /* DEMO CARD (signature element) */
+  .demo-card{
+    background:var(--ink); border-radius:20px; padding:26px; color:var(--paper);
+    box-shadow:0 30px 60px -20px rgba(15,23,32,0.35); position:relative;
+  }
+  .demo-card .demo-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+  .demo-card .demo-head .title{font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate-light);}
+  .live-pill{display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px; color:#7FDDA8;}
+  .live-dot{width:7px; height:7px; background:#3FDD86; border-radius:50%; animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.3;}}
+  .call-feed{display:flex; flex-direction:column; gap:10px; min-height:230px;}
+  .call-row{
+    display:flex; align-items:center; gap:12px; background:var(--ink-soft); border-radius:10px; padding:12px 14px;
+    font-size:13.5px; opacity:0; transform:translateY(6px); animation:rowIn .5s ease forwards;
+    border:1px solid #27323F;
+  }
+  @keyframes rowIn{to{opacity:1; transform:translateY(0);}}
+  .call-row .badge{
+    font-family:var(--mono); font-size:10px; padding:3px 8px; border-radius:999px; font-weight:600; white-space:nowrap;
+  }
+  .badge.missed{background:rgba(242,118,46,0.18); color:#F2A46E;}
+  .badge.booked{background:rgba(63,221,134,0.16); color:#7FDDA8;}
+  .call-row .txt{color:#D4D8DE; flex:1;}
+  .call-row .time{font-family:var(--mono); font-size:11px; color:var(--slate-light);}
+  .demo-footer{margin-top:18px; padding-top:16px; border-top:1px solid #27323F; display:flex; justify-content:space-between; align-items:center;}
+  .demo-footer .counter{font-family:var(--mono); font-size:13px; color:#7FDDA8;}
+  .demo-footer .counter b{font-size:18px;}
+
+  /* PAIN POINTS */
+  .section{padding:88px 0;}
+  .section-head{max-width:640px; margin-bottom:48px;}
+  .section-head h2{font-size:clamp(28px,3.2vw,40px); margin-bottom:14px;}
+  .section-head p{color:var(--slate); font-size:16.5px;}
+  .pain-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .pain-card{background:var(--white); border:1px solid var(--line-light); border-radius:var(--radius); padding:26px;}
+  .pain-card .icon{font-size:26px; margin-bottom:14px;}
+  .pain-card h3{font-size:17px; margin-bottom:8px; font-family:var(--body); font-weight:700;}
+  .pain-card p{color:var(--slate); font-size:14.5px;}
+  .pain-band{background:var(--ink); color:var(--paper); border-radius:20px; padding:38px 44px; margin-top:36px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;}
+  .pain-band .big{font-family:var(--mono); font-size:34px; color:var(--amber); font-weight:600;}
+  .pain-band p{color:#B9C0C9; max-width:480px; font-size:14.5px;}
+
+  /* HOW IT WORKS */
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:0; position:relative;}
+  .steps::before{content:''; position:absolute; top:26px; left:6%; right:6%; height:2px; background:var(--line-light); z-index:0;}
+  .step{position:relative; z-index:1; padding-right:20px;}
+  .step .num{
+    width:52px; height:52px; border-radius:50%; background:var(--paper); border:2px solid var(--ink);
+    display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:600; font-size:16px; margin-bottom:18px;
+  }
+  .step h3{font-size:16px; margin-bottom:8px;}
+  .step p{color:var(--slate); font-size:14px;}
+
+  /* FEATURES */
+  .feat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .feat-card{background:var(--white); border:1px solid var(--line-light); border-radius:var(--radius); padding:24px; transition:border-color .15s;}
+  .feat-card:hover{border-color:var(--amber);}
+  .feat-card .icon{width:38px; height:38px; border-radius:9px; background:var(--paper-dim); display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:16px;}
+  .feat-card h3{font-size:15.5px; margin-bottom:6px; font-family:var(--body); font-weight:700;}
+  .feat-card p{color:var(--slate); font-size:13.5px;}
+
+  /* ROI CALCULATOR */
+  .roi-wrap{background:var(--ink); border-radius:24px; padding:48px; color:var(--paper); display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .roi-wrap .section-head h2, .roi-wrap .section-head p{color:var(--paper);}
+  .roi-wrap .section-head p{color:#B9C0C9;}
+  .roi-field{margin-bottom:20px;}
+  .roi-field label{display:flex; justify-content:space-between; font-size:13.5px; color:#B9C0C9; margin-bottom:8px; font-family:var(--mono);}
+  .roi-field label span{color:var(--amber); font-weight:600;}
+  .roi-field input[type=range]{width:100%; accent-color:var(--amber);}
+  .roi-result{background:var(--ink-soft); border-radius:16px; padding:28px; border:1px solid #27323F;}
+  .roi-result .label{font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate-light); margin-bottom:6px;}
+  .roi-result .value{font-family:var(--display); font-size:44px; color:var(--amber); font-weight:700; margin-bottom:4px;}
+  .roi-result .sub{font-size:13px; color:#B9C0C9; margin-bottom:22px;}
+  .roi-result .btn{width:100%; justify-content:center;}
+
+  /* INDUSTRIES */
+  .ind-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:14px;}
+  .ind-card{background:var(--white); border:1px solid var(--line-light); border-radius:12px; padding:20px 16px; text-align:center; transition:transform .15s, border-color .15s;}
+  .ind-card:hover{transform:translateY(-3px); border-color:var(--amber);}
+  .ind-card .icon{font-size:24px; margin-bottom:10px;}
+  .ind-card span{font-size:13.5px; font-weight:600;}
+
+  /* PROOF / HONEST SECTION */
+  .proof-card{background:var(--white); border:1px solid var(--line-light); border-radius:20px; padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;}
+  .proof-card .left h3{font-size:22px; margin-bottom:12px;}
+  .proof-card .left p{color:var(--slate); font-size:15px; margin-bottom:20px;}
+  .proof-list{list-style:none; display:flex; flex-direction:column; gap:10px;}
+  .proof-list li{display:flex; gap:10px; font-size:14px; color:var(--ink); align-items:flex-start;}
+  .proof-list li::before{content:'✓'; color:var(--green); font-weight:700;}
+  .proof-right{background:var(--paper-dim); border-radius:14px; padding:24px; font-family:var(--mono); font-size:13px;}
+  .proof-right .line{padding:8px 0; border-bottom:1px dashed var(--line-light); display:flex; justify-content:space-between;}
+  .proof-right .line:last-child{border:none;}
+  .proof-right .line .k{color:var(--slate);}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--line-light); padding:20px 0;}
+  .faq-q{display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px;}
+  .faq-q .plus{font-family:var(--mono); font-size:20px; color:var(--amber-deep); transition:transform .2s;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease; color:var(--slate); font-size:14.5px;}
+  .faq-item.open .faq-a{max-height:200px; padding-top:12px;}
+
+  /* FINAL CTA */
+  .final-cta{background:var(--amber); border-radius:24px; padding:64px 48px; text-align:center;}
+  .final-cta h2{font-size:clamp(28px,3.6vw,42px); margin-bottom:16px; color:var(--ink);}
+  .final-cta p{color:var(--ink); opacity:0.75; font-size:16px; margin-bottom:30px;}
+  .final-cta .btn-dark{box-shadow:0 6px 0 rgba(0,0,0,0.5);}
+
+  footer{background:var(--ink); color:#B9C0C9; padding:56px 0 28px; margin-top:40px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px; margin-bottom:40px;}
+  footer h4{color:var(--paper); font-size:13px; font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:14px;}
+  footer .flinks{display:flex; flex-direction:column; gap:10px; font-size:14px;}
+  footer .flinks a{color:#B9C0C9; transition:color .15s;}
+  footer .flinks a:hover{color:var(--paper);}
+  .footer-bottom{border-top:1px solid #27323F; padding-top:22px; display:flex; justify-content:space-between; font-size:13px; color:#7A8390; flex-wrap:wrap; gap:12px;}
+
+  .sticky-cta{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%); z-index:60;
+    background:var(--ink); color:var(--paper); padding:12px 14px 12px 22px; border-radius:999px;
+    display:flex; align-items:center; gap:16px; box-shadow:0 12px 30px rgba(0,0,0,0.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+  }
+  .sticky-cta.show{opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0);}
+  .sticky-cta span{font-size:13.5px; font-weight:600;}
+  .sticky-cta .btn{padding:9px 18px; font-size:13.5px;}
+
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;}
+    .pain-grid, .feat-grid{grid-template-columns:repeat(2,1fr);}
+    .ind-grid{grid-template-columns:repeat(3,1fr);}
+    .roi-wrap{grid-template-columns:1fr; padding:32px;}
+    .steps{grid-template-columns:repeat(2,1fr); gap:28px;}
+    .steps::before{display:none;}
+    .proof-card{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:600px){
+    .pain-grid, .feat-grid, .ind-grid{grid-template-columns:1fr 1fr;}
+    .hero-stats{gap:20px;}
+    .pain-band{flex-direction:column; align-items:flex-start;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="logo"><span class="dot"></span> AnkurAI</div>
+      <div class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#roi">ROI calculator</a>
+        <a href="#industries">Industries</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="#roi">Calculate My ROI</a>
+        <a class="btn btn-primary" href="#book-demo">Book Free Demo</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">AI Employees for Home Service Businesses</div>
+      <h1>Every missed call is a job your <span class="accent">competitor</span> just booked.</h1>
+      <p class="hero-sub">Your AI Front Office Employee answers every call, texts back missed ones in seconds, and books the appointment straight into your calendar — 24/7, even when your crew's on a roof.</p>
+      <div class="hero-cta-row">
+        <a class="btn btn-primary" href="#book-demo">Book My Free Demo</a>
+        <a class="btn btn-ghost" href="#demo-live">See It Answer a Call ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="num">24/7</div><div class="lbl">Never off the clock</div></div>
+        <div><div class="num">&lt;30 sec</div><div class="lbl">Missed-call text-back</div></div>
+        <div><div class="num">0</div><div class="lbl">Jobs lost to voicemail</div></div>
+      </div>
+    </div>
+    <div class="demo-card" id="demo-live">
+      <div class="demo-head">
+        <div class="title">Live front desk — Sample dispatch</div>
+        <div class="live-pill"><span class="live-dot"></span> AI ANSWERING</div>
+      </div>
+      <div class="call-feed" id="callFeed"></div>
+      <div class="demo-footer">
+        <div class="counter">Jobs booked this session: <b id="counterNum">0</b></div>
+        <a class="btn btn-primary" style="padding:9px 16px; font-size:12.5px;" href="#book-demo">Try with my number</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pain">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The Problem</div>
+      <h2>You're not losing to a better contractor. You're losing to voicemail.</h2>
+      <p>Most home service businesses miss 20–30% of inbound calls during job hours — and 85% of those customers never call back. They call the next number on the list.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="icon">📵</div>
+        <h3>Calls go unanswered on the job</h3>
+        <p>Your hands are on a wrench, not a phone. Every ring you can't take is a customer deciding between you and whoever answers first.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">🌙</div>
+        <h3>After-hours emergencies go cold</h3>
+        <p>Burst pipes and dead AC units don't wait for 9am. If no one answers at 11pm, that job — and that customer — is gone by morning.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">🗒️</div>
+        <h3>Admin time eats your evenings</h3>
+        <p>Chasing voicemails, texting back leads, and manually filling the calendar is unpaid work stacking up after a full day of paid work.</p>
+      </div>
+    </div>
+    <div class="pain-band">
+      <div>
+        <div class="big">₹0</div>
+        <p>That's roughly what a missed call is worth to you — until you count the job. Use the calculator below to see what missed calls actually cost your business every month.</p>
+      </div>
+      <a class="btn btn-primary" href="#roi">Calculate My Loss →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how-it-works">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How It Works</div>
+      <h2>From ringing phone to booked job — with no one lifting a finger.</h2>
+      <p>Your AI Front Office Employee plugs into the phone number you already use. No new hardware, no new number to give out.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>Call comes in</h3>
+        <p>Customer calls your existing business number, day or night.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>AI answers instantly</h3>
+        <p>It identifies the job type, urgency, and location — like a trained dispatcher would.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>Appointment gets booked</h3>
+        <p>It checks your real availability and books straight into your calendar or CRM.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <h3>You get notified</h3>
+        <p>You show up to a scheduled job with the details already on file — no callback needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">What It Does</div>
+      <h2>One AI Employee, doing the job of a full-time front desk.</h2>
+      <p>Built specifically for trades — not a generic chatbot wearing a hard hat.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="icon">☎️</div><h3>24/7 call answering</h3><p>Every call gets picked up — nights, weekends, and mid-job.</p></div>
+      <div class="feat-card"><div class="icon">💬</div><h3>Instant missed-call text-back</h3><p>If a call is missed anyway, a text goes out within seconds to keep the lead warm.</p></div>
+      <div class="feat-card"><div class="icon">🚨</div><h3>Emergency detection & routing</h3><p>Flags urgent jobs — burst pipe, no heat, lockout — and routes them accordingly.</p></div>
+      <div class="feat-card"><div class="icon">📅</div><h3>Real-time appointment booking</h3><p>Books against your actual calendar availability — no double-booking, no back-and-forth.</p></div>
+      <div class="feat-card"><div class="icon">🔗</div><h3>CRM & calendar sync</h3><p>Works with the tools you already run your business on.</p></div>
+      <div class="feat-card"><div class="icon">🌐</div><h3>Multilingual support</h3><p>Speaks with customers in the language they're most comfortable in.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="roi">
+  <div class="wrap">
+    <div class="roi-wrap">
+      <div>
+        <div class="section-head" style="margin-bottom:32px;">
+          <div class="eyebrow">ROI Calculator</div>
+          <h2>See what missed calls are costing you.</h2>
+          <p>Adjust the numbers to match your business. This is a rough estimate — your free demo includes a real number based on your call data.</p>
+        </div>
+        <div class="roi-field">
+          <label>Calls per month <span id="v-calls">300</span></label>
+          <input type="range" id="calls" min="20" max="1000" value="300" step="10">
+        </div>
+        <div class="roi-field">
+          <label>Missed call rate <span id="v-missed">25%</span></label>
+          <input type="range" id="missed" min="0" max="70" value="25" step="1">
+        </div>
+        <div class="roi-field">
+          <label>Average job value ($) <span id="v-jobvalue">350</span></label>
+          <input type="range" id="jobvalue" min="50" max="3000" value="350" step="25">
+        </div>
+        <div class="roi-field">
+          <label>Close rate on answered leads <span id="v-close">35%</span></label>
+          <input type="range" id="close" min="5" max="90" value="35" step="1">
+        </div>
+      </div>
+      <div class="roi-result">
+        <div class="label">Estimated revenue lost / month</div>
+        <div class="value" id="roi-output">$0</div>
+        <div class="sub" id="roi-sub">from missed calls that never got a callback</div>
+        <a class="btn btn-primary" href="#book-demo">Book Free AI Consultation →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="industries">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Built For Trades</div>
+      <h2>Purpose-built for the way your business actually runs.</h2>
+      <p>Every industry has different job types, urgency signals, and scheduling patterns. Yours is trained for that from day one.</p>
+    </div>
+    <div class="ind-grid">
+      <div class="ind-card"><div class="icon">❄️</div><span>HVAC</span></div>
+      <div class="ind-card"><div class="icon">🔧</div><span>Plumbing</span></div>
+      <div class="ind-card"><div class="icon">⚡</div><span>Electrical</span></div>
+      <div class="ind-card"><div class="icon">🏠</div><span>Roofing</span></div>
+      <div class="ind-card"><div class="icon">🐜</div><span>Pest Control</span></div>
+      <div class="ind-card"><div class="icon">🚪</div><span>Garage Door</span></div>
+      <div class="ind-card"><div class="icon">🧰</div><span>Appliance Repair</span></div>
+      <div class="ind-card"><div class="icon">🔑</div><span>Locksmith</span></div>
+      <div class="ind-card"><div class="icon">🧹</div><span>Cleaning</span></div>
+      <div class="ind-card"><div class="icon">🏢</div><span>Property Mgmt</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="proof">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Why Trust This</div>
+      <h2>New product, built by someone who's shipped production AI before.</h2>
+    </div>
+    <div class="proof-card">
+      <div class="left">
+        <h3>No fake logos, no fake reviews.</h3>
+        <p>This is a new offering — we'd rather earn your trust with a real free demo on your own phone number than a wall of stock-photo testimonials.</p>
+        <ul class="proof-list">
+          <li>Production experience building government-facing AI systems</li>
+          <li>Hands-on with real client delivery, not just prototypes</li>
+          <li>You see it work on your number before you pay anything</li>
+        </ul>
+      </div>
+      <div class="proof-right">
+        <div class="line"><span class="k">Response time</span><span>&lt; 30 sec</span></div>
+        <div class="line"><span class="k">Setup time</span><span>Same week</span></div>
+        <div class="line"><span class="k">Contract</span><span>No lock-in on trial</span></div>
+        <div class="line"><span class="k">Your first demo</span><span>Free</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap" style="max-width:820px; margin:0 auto;">
+    <div class="section-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>Common questions before you book</h2>
+    </div>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+<section class="section" id="book-demo">
+  <div class="wrap">
+    <div class="final-cta">
+      <h2>Stop losing jobs to voicemail this week.</h2>
+      <p>Book a free demo — we'll set it up against a real call scenario for your trade, no commitment required.</p>
+      <a class="btn btn-dark" href="mailto:ankur@ankurai.tech?subject=Free Demo Request">Book My Free Demo →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="color:var(--paper); margin-bottom:14px;"><span class="dot"></span> AnkurAI</div>
+        <p style="font-size:14px; max-width:280px; color:#8B93A0;">AI Front Office Employees for home service businesses. Never miss a call, never miss a job.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <div class="flinks">
+          <a href="#how-it-works">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#roi">ROI calculator</a>
+          <a href="#industries">Industries</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="flinks">
+          <a href="#">About</a>
+          <a href="#">Case studies</a>
+          <a href="#">Pricing</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <div class="flinks">
+          <a href="mailto:ankur@ankurai.tech">ankur@ankurai.tech</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AnkurAI.tech — AI Employees for home service businesses</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="stickyCta">
+  <span>Ready to stop missing calls?</span>
+  <a class="btn btn-primary" href="#book-demo">Book Free Demo</a>
+</div>
+
+<script>
+  // Sticky CTA
+  const sticky = document.getElementById('stickyCta');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 700){ sticky.classList.add('show'); } else { sticky.classList.remove('show'); }
+  });
+
+  // Live call feed demo
+  const feed = document.getElementById('callFeed');
+  const counterEl = document.getElementById('counterNum');
+  const sampleCalls = [
+    {badge:'missed', label:'Missed call', txt:'AC not cooling — Rockwall, TX', time:'0:04s ago'},
+    {badge:'booked', label:'Text-back sent', txt:'Auto-reply: "We got your call — booking now"', time:'0:09s ago'},
+    {badge:'booked', label:'Job booked', txt:'HVAC repair · Tomorrow 2:00 PM', time:'0:22s ago'},
+    {badge:'missed', label:'After-hours call', txt:'Water heater leak — urgent', time:'0:31s ago'},
+    {badge:'booked', label:'Emergency routed', txt:'Plumbing · Booked for tonight', time:'0:40s ago'},
+    {badge:'booked', label:'Job booked', txt:'Garage door off track · Fri 10 AM', time:'0:55s ago'}
+  ];
+  let idx = 0, booked = 0;
+  function renderFeed(){
+    feed.innerHTML = '';
+    const visible = [];
+    for(let i=0;i<4;i++){
+      visible.push(sampleCalls[(idx+i) % sampleCalls.length]);
+    }
+    visible.reverse().forEach((c,i)=>{
+      const row = document.createElement('div');
+      row.className = 'call-row';
+      row.style.animationDelay = (i*0.08)+'s';
+      row.innerHTML = `<span class="badge ${c.badge}">${c.label}</span><span class="txt">${c.txt}</span><span class="time">${c.time}</span>`;
+      feed.appendChild(row);
+    });
+  }
+  renderFeed();
+  setInterval(()=>{
+    idx = (idx+1) % sampleCalls.length;
+    if(sampleCalls[idx].badge === 'booked'){ booked++; counterEl.textContent = booked; }
+    renderFeed();
+  }, 2600);
+
+  // ROI calculator
+  const calls = document.getElementById('calls');
+  const missed = document.getElementById('missed');
+  const jobvalue = document.getElementById('jobvalue');
+  const close = document.getElementById('close');
+  const vCalls = document.getElementById('v-calls');
+  const vMissed = document.getElementById('v-missed');
+  const vJobvalue = document.getElementById('v-jobvalue');
+  const vClose = document.getElementById('v-close');
+  const roiOutput = document.getElementById('roi-output');
+
+  function calcRoi(){
+    vCalls.textContent = calls.value;
+    vMissed.textContent = missed.value + '%';
+    vJobvalue.textContent = jobvalue.value;
+    vClose.textContent = close.value + '%';
+    const missedCalls = calls.value * (missed.value/100);
+    const lostJobs = missedCalls * (close.value/100);
+    const lostRevenue = lostJobs * jobvalue.value;
+    roiOutput.textContent = '$' + Math.round(lostRevenue).toLocaleString();
+  }
+  [calls, missed, jobvalue, close].forEach(el => el.addEventListener('input', calcRoi));
+  calcRoi();
+
+  // FAQ
+  const faqs = [
+    {q:'How fast does the AI actually respond to a call?', a:'Under 30 seconds for both live answering and missed-call text-back — fast enough that most customers never feel like they were routed to a machine.'},
+    {q:'Does it work with the phone number and CRM I already use?', a:'Yes. It plugs into your existing business number and syncs with common calendar and CRM tools — no new number to hand out to customers.'},
+    {q:'What happens if a call needs a real person?', a:'Complex or emergency calls get flagged and routed to you directly, with context already captured so you\\'re not starting from scratch.'},
+    {q:'Is this just a chatbot with a different name?', a:'No — it\\'s built specifically to handle phone calls and texts for trades: job type detection, urgency routing, and real calendar booking, not scripted FAQ answers.'},
+    {q:'How long does setup take and what does it cost?', a:'Most businesses are live within a week. Pricing depends on call volume and features — book a free demo and we\\'ll walk through exact numbers for your business.'}
+  ];
+  const faqList = document.getElementById('faqList');
+  faqs.forEach((f,i) => {
+    const item = document.createElement('div');
+    item.className = 'faq-item';
+    item.innerHTML = `<div class="faq-q">${f.q}<span class="plus">+</span></div><div class="faq-a">${f.a}</div>`;
+    item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+    faqList.appendChild(item);
+  });
+</script>
+
+</body>
+</html>
